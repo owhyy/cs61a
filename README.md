@@ -1,4 +1,4 @@
-# Repository for code to the CS61A course with Brian Harvey, as well as the SICP book code, for the assignments and all of the excersises of the book in general.
+# Schedule
 **Started: 13 December 2021; Finished - xx xx 2022**
 
 #### Week 1: 13 - 20 December
