@@ -23,7 +23,7 @@
   - ~~Lecture 7~~
   - ~~Lecture 8~~
 #### Week 4: xx - xx January
-  - SICP 2.1 and 2.2.1
+  - ~~SICP 2.1 and 2.2.1~~
   - Homework
   - Lab
   - Lecture 9
