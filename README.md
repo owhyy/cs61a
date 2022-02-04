@@ -16,8 +16,8 @@
   - ~~Lecture 5~~
 #### Week 3: 01 - 07 January
   - ~~SICP 1.2~~
-  - Lab
-  - Homework
+  - ~~Lab~~
+  - ~~Homework~~
   - Project 1
   - ~~Lecture 6~~
   - ~~Lecture 7~~
