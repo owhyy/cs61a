@@ -21,7 +21,7 @@
   - Project 1
   - ~~Lecture 6~~
   - ~~Lecture 7~~
-  - Lecture 8
+  - ~~Lecture 8~~
 #### Week 4: xx - xx January
   - SICP 2.1 and 2.2.1
   - Homework
