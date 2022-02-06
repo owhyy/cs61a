@@ -18,7 +18,7 @@
   - ~~SICP 1.2~~
   - ~~Lab~~
   - ~~Homework~~
-  - Project 1
+  - ~~Project 1~~
   - ~~Lecture 6~~
   - ~~Lecture 7~~
   - ~~Lecture 8~~

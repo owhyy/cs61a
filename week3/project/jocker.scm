@@ -28,11 +28,13 @@
                    (first (bf (bf deck)))
                    (bf (bf (bf deck))))) )
 
+;; modified: added X1 and X2 as joker 1 and 2 correspondingly
 (define (make-ordered-deck)
   (define (make-suit s)
     (every (lambda (rank) (word rank s)) '(A 2 3 4 5 6 7 8 9 10 J Q K)) )
-  (se (make-suit 'H) (make-suit 'S) (make-suit 'D) (make-suit 'C)) )
+  (se 'X1 'X2 (make-suit 'H) (make-suit 'S) (make-suit 'D) (make-suit 'C)) )
 
+;; modified: changed size of deck from 52 to 54
 (define (make-deck)
   (define (shuffle deck size)
     (define (move-card in out which)
@@ -42,7 +44,7 @@
     (if (= size 0)
         deck
         (move-card deck '() (random size)) ))
-  (shuffle (make-ordered-deck) 52) )
+  (shuffle (make-ordered-deck) 54) )
 
 ;; simple unit testing
 (define (check-expect val result)
@@ -58,9 +60,13 @@
               (word result)))))
 
 ;; 1
+;; modified: added calculation rule for joker
 (define (best-total hand)
   (define (loop hand sum-so-far)
     (cond ((empty? hand) sum-so-far)
+          ((member? (bl (first hand)) '(X x))
+           (let ((new-sum (- 21 (loop (bf hand) sum-so-far))))
+             (if (> new-sum 11) (+ 11 (- 21 new-sum)) (+ new-sum (- 21 new-sum)))))
           ((member? (bl (first hand)) '(A a))
            (let ((new-sum (+ 11 (loop (bf hand) sum-so-far))))
              (if (> new-sum 21) (- new-sum 10) new-sum)))
@@ -70,6 +76,13 @@
   (loop hand 0))
 
 (check-expect (best-total '(ad 8s)) 19)
+(check-expect (best-total '(x1)) 11)
+(check-expect (best-total '(x1 ad)) 21)
+(check-expect (best-total '(ad x1 x2)) 22) ;bust
+(check-expect (best-total '(x1 x2)) 21)
+(check-expect (best-total '(x1 2s)) 13)
+(check-expect (best-total '(ad 9h x1)) 21)
+(check-expect (best-total '(ad 9h x1 x2)) 22) ;bust
 (check-expect (best-total '(ad 8s 5h)) 14)
 (check-expect (best-total '(ad as 9h)) 21)
 (check-expect (best-total '(ad as ah)) 13)
@@ -96,8 +109,9 @@
 ;; trust me, it works :)
 
 ;; 4
+;; modified: joker is now a face card too
 (define (dealer-sensitive hand dealer-card)
-  (cond ((and (member? (bl dealer-card) '(a k q j 10 7 8 9))
+  (cond ((and (member? (bl dealer-card) '(X A K Q J x a k q j 10 7 8 9))
               (< (best-total hand) 17)) #t)
         ((and (member? (bl dealer-card) '(2 3 4 5 7))
               (< (best-total hand) 12)) #t)
@@ -141,7 +155,7 @@
   (lambda (hand dealer-card)
     (define (contains-suit? current-hand)
       (cond ((empty? current-hand) #f)
-            ((member? (last (first current-hand)) suit) #t)
+            ((equal? (last (first current-hand)) suit) #t)
             (else (contains-suit? (bf current-hand)))))
     (if (contains-suit? hand)
         (strat hand dealer-card)
