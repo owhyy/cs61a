@@ -24,19 +24,16 @@
   - ~~Lecture 8~~
 #### Week 4: xx - xx January
   - ~~SICP 2.1 and 2.2.1~~
-  - Homework
-  - Lab
-  - Lecture 9
-  - Lecture 10
+  - ~~Homework~~
+  - ~~Lab~~
+  - ~~Lecture 9~~
+  - ~~Lecture 10~~
   - Lecture 11
 #### Week 5: xx - xx January
   - SICP 2.2 and 2.3
   - Homework
   - Lab
-  - Midterm 1:
-    - Sample exam 1
-    - Sample exam 2
-    - Sample exam 3
+  - ~~Midterm 1:~~
   - Lecture 12
   - Lecture 13
   - Lecture 14
