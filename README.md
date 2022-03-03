@@ -1,4 +1,7 @@
-# Schedule
+# Brian Harvey's Berkeley CS61A
+This is the repository for the 2011 spring CS61a course, done as part of the [TYCS](https://github.com/owhyy/tycs) curriculum.
+
+## Schedule
 **Started: 13 December 2021; Finished - xx xx 2022**
 
 #### Week 1: 13 - 20 December
