@@ -26,6 +26,7 @@ pi -> 3.14159
 (square 5) -> 25
 (square (+ 2 3)) -> 25
 ```
+&nbsp;
 
 2. The code is, I believe, in the lecture.
 ```scheme
@@ -37,6 +38,7 @@ pi -> 3.14159
 (define (pl-done? wd)
   (vowel? (first wd)))
 ```
+&nbsp;
 
 # Week 1 Second Lab
 1.
@@ -59,6 +61,7 @@ pi -> 3.14159
     (+ a 1)) -> 16
 ((if (< a b) + -) a b) -> 7
 ```
+&nbsp;
 
 2. This checks if the last letter of a word is *y*, in which case it triggers the next check, that checks if the word before it is a vowel, in which case it appends a `'s`, otherwise it appends a `'ies`. If the last word isn't a *y*, it just appends `'s`, as there are no special rules.
 ```scheme
@@ -72,6 +75,7 @@ pi -> 3.14159
 (define (vowel? c)
   (member? c '(a e i o u)))
 ```
+&nbsp;
 
 3. This takes 3 numbers and adds the squares of the biggest 2 of them. It does so by finding the maximum of the three, and then finding the next maximum that is not the same as the other one. I presume this will work if there are 2 identical maximums, but I haven't tested it out.
 ```scheme
