@@ -1,5 +1,8 @@
 # Week 1 Homework
 1. ???
+
+&nbsp;
+
 2. Simple procedure, takes a sentence and returns a sentence consisting of the squares of the elements.
 
 ```scheme
@@ -10,8 +13,9 @@
       (se (square (first sent))
           (squares (bf sent)))))
 ```
+&nbsp;
 
-3. The procedure consists of 3 parts: `switch-aux`, which takes a sentence as argument and replaces all occurences of **I** or **me** with **you**, and every occurence of **you ** with **me**. The second part is the `add-i-to-beginning`, which takes a sentence and returns a sentence in which, if the first word is **me**, it will be replaced with **I**. The last part - `switch` joins the two together.
+3. The procedure consists of 3 parts: `switch-aux`, which takes a sentence as argument and replaces all occurences of **I** or **me** with **you**, and every occurence of **you** with **me**. The second part is the `add-i-to-beginning`, which takes a sentence and returns a sentence in which, if the first word is **me**, it will be replaced with **I**. The last part - `switch` joins the two together.
 
 ```scheme
 (define (switch-aux sent)
@@ -30,6 +34,7 @@
 (define (switch sent)
   (add-i-to-beginning (switch-aux sent)))
 ```
+&nbsp;
 
 4. This is not an efficient solution, because it won't stop when it reached a number that is less than the one before.
 
@@ -51,6 +56,7 @@ A good implementation would be to only check `(<= 1 2)` and advance forward, che
       (and (less-first-bf (first sent) (bf sent))
            (ordered? (bf sent)))))
 ```
+&nbsp;
 
 5. Simple procedure, takes a sentence and returns a new sentence consisting only of words that have *e* as their last letter.
 
@@ -61,13 +67,15 @@ A good implementation would be to only check `(<= 1 2)` and advance forward, che
          (se (first sent) (ends-e (bf sent))))
         (else (ends-e (bf sent)))))
 ```
+&nbsp;
 
 6. Not sure I did it
 
 # SICP excersies
 Theses are not inlcluded in the homework, but I've still done them
 
-**Exercise 1.9**: Each of the following two procedures defines a method for adding two positive integers in terms of the procedures `inc`, which increments its argument by 1, and `dec`, which decrements its argument by 1.
+## Exercise 1.9: 
+Each of the following two procedures defines a method for adding two positive integers in terms of the procedures `inc`, which increments its argument by 1, and `dec`, which decrements its argument by 1.
 ```scheme
 (define (+ a b)
     (if (= a 0) b (inc (+ (dec a) b))))
@@ -107,10 +115,11 @@ The second version will generate the following process:
 Since the result is getting calculated on each call, this is an iterative process.
 
 
-**Exercise 1.11**: A function f is defined by the rule that
+## Exercise 1.11: 
+A function f is defined by the rule that
 
-f (n) = n, if n < 3, or \\
-f (n − 1) + 2f (n − 2) + 3f (n − 3) if n $\geq$ 3.
+`f (n) = n, if n < 3`, or \
+`f (n − 1) + 2f (n − 2) + 3f (n − 3) if n <= 3`.
 
 Write a procedure that computes f by means of a recursive process. Write a procedure that computes f by means of an iterative process.
 
@@ -133,7 +142,8 @@ Iterative process
   (iter (- n 2) 2 1 0))
 ```
 
-**Exercise 1.12**: Pascal triangle.
+## Exercise 1.12: 
+Pascal triangle.
 
 Basically the pattern 1 11 121 12321 1234321 and so on. The procedure should take a row and a column, and return the element and that position.
 
