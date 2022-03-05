@@ -1,37 +1,223 @@
 # Homework week 2
 
-1.
-## Excersise 1.31
+1. *SICP* excersises
+### Excersise 1.31
+Product of a range
 
+```scheme
+(define (identity a) a)
+(define (inc a) (+ 1 a))
 
-## Excersise 1.32
+(define (product-it term a next b)
+ (define (iter a result)
+   (if (> a b)
+       result
+       (iter (next a) (* (term a) result))))
+   (iter a 1))
 
-## Excersise 1.33
+(define (product term a next b)
+  (if (> a b)
+      1
+      (* (term a)
+         (product term (next a) next b))))
 
-## Excersise 1.40
-## Excersise 1.41
+(define (factorial n)
+  (product identity 1 inc n))
+```
 
-## Excersise 1.43
-## Excersise 1.46
+Then use this to approximate pi/4, using the formula in the book
 
-2. Should be pretty self-explanatory
+```scheme
+(define (square x) (* x x))
+(define (pi-term n) (* (/ (- n 1.0) n) (/ (+ n 1.0) n)))
+
+; my version
+(define (pi-approx n)
+  (* 4.0 (/ (/ (square (product identity 2 (λ (x) (+ x 2)) n)) (* 2 n))
+          (square (product identity 3 (λ (x) (+ x 2)) n)))))
+
+; 3.143163842419198 for n=1000; 0.00000000000003 more than below
+
+; other solution
+;(define (pi-approx n)
+;  (* 4.0 (product pi-term 3 (λ (x) (+ x 2)) n)))
+
+;3.143163842419195 for n = 1000
+```
+
+### Excersise 1.32
+Accumulate procedure
+```scheme
+(define (accumulate combiner null-value term a next b)
+  (if (> a b)
+      null-value
+      (combiner (term a)
+                (accumulate combiner null-value term (next a) next b))))
+
+(define (accumulate-it combiner null-value term a next b)
+  (define (iter result a b)
+  (if (> a b)
+      result
+      (iter (combiner (term a) result) (next a) b)))
+  (iter null-value a b))
+```
+
+### Excersise 1.33
+Accumulate with filter: combine only those for which the criteria of `filter` is met
+```scheme
+(define (accumulate-filter satisf? combiner null-value term a next b)
+  (cond ((> a b) null-value)
+        ((satisf? a) (combiner (term a) (accumulate-filter satisf? combiner null-value term (next a) next b)))
+        (else (accumulate-filter satisf? combiner null-value term (next a) next b))))
+
+(define (accumulate-filter-it satisf? combiner null-value term a next b)
+  (define (iter result a b)
+    (cond ((> a b) result)
+          ((satisf? a) (iter (combiner (term a) result) (next a) b))
+          (else (iter result (next a) b))))
+  (iter null-value a b))
+```
+Use `accumulate-filter` to calculate the sum of the squares of prime numbers in the interval *a* to *b*
+```scheme
+(define (prime? n)
+  (define (loop n i)
+    (cond ((> i (sqrt n)) #t)
+          ((= (remainder n i) 0) #f)
+          (else (loop n (+ i 1)))))
+  (loop n 2))
+```
+Use `accumulate-filter`  to calculate the product of all positive integers less that *n* that are relatively prime ot *n* (all positive integers *i < n* such that `GCD(i,n)=1`)
+```scheme
+(define (gcd a b)
+  (if (= b 0) a
+      (gcd b (remainder a b))))
+
+(define (square n)
+  (* n n))
+
+(define (sum-sq-prime-numbers a b)
+  (accumulate-filter-it prime? + 0 square a (λ (x) (+ x 1)) b))
+
+(define (prod-coprime n)
+  (accumulate-filter-it (λ (x) (= (gcd x n) 1)) * 1 (λ (x) x) 0 (λ (x) (+ x 1)) n))
+```
+
+### Excersise 1.40
+Appropximating zeros of the cubic equation
+```scheme
+(define tolerance 0.000001)
+(define (fixed-point f first-guess)
+  (define (close-enough? v1 v2)
+    (< (abs (- v1 v2))
+       tolerance))
+  (define (try guess)
+    (let ((next (f guess)))
+      (if (close-enough? guess next)
+          next
+          (try next))))
+  (try first-guess))
+(define dx 0.00001)
+(define (deriv g)
+  (lambda (x) (/ (- (g (+ x dx)) (g x)) dx)))
+(define (newton-transform g)
+  (lambda (x) (- x (/ (g x) ((deriv g) x)))))
+(define (newtons-method g guess)
+  (fixed-point (newton-transform g) guess))
+
+(define (cube n) (* n n n))
+(define (square n) (* n n))
+
+(define (cubic a b c)
+  (lambda (x) (+ (cube x) (* a (square x)) (* b x) c)))
+```
+
+### Excersise 1.41
+Procedure `double`, takes a procedure and returns a procedure that applies that procedure twice
+
+eg: `(double inc)` should return `(inc (inc))`
+```scheme
+(define (double f)
+  (lambda (x) (f (f x))))
+
+(define (inc n) (+ n 1))
+```
+
+What will `(((double (double double)) inc) 5)` return?
+```scheme
+(double (double double inc)) becomes
+(double (double (double (double inc))))
+which is (double (double (double (inc (inc 5))))) ->
+(double (double (inc (inc (inc (inc 5))))))
+(double (inc (inc (inc (inc (inc (inc (inc (inc 5)))))))))
+(inc (inc (inc (inc (inc (inc (inc (inc (inc (inc (inc (inc (inc (inc (inc (inc 5)))))))))))))))
+or, in other words, (+ 16 5) -> 21
+```
+
+### Excersise 1.43
+Same thing as `double`, except instead of 2 times, it should repeat *n* times
+```scheme
+(define (inc x) (+ x 1))
+(define (compose f g)
+  (lambda (x) (f (g x))))
+
+(define (repeated f x)
+  (define (loop n f-comp)
+    (if (= n 1) f-comp
+        (loop (- n 1) (compose f f-comp))))
+  (loop x f))
+```
+
+### Excersise 1.46
+Iterative improvement, with a method for specifying when to stop, and a method specifying how to improve
+
+```scheme
+(define (iterative-improve good-enough? improve)
+  (lambda (guess)
+    (if (good-enough? guess) guess
+        ((iterative-improve good-enough? improve) (improve guess)))))
+```
+Use that to rewrite the `sqrt` procedure approximation.
+```scheme
+(define tolerance 0.00001)
+(define (close-enough? v1 v2)
+  (< (abs (- v1 v2)) tolerance))
+
+(define (average x y)
+  (/ (+ x y) 2))
+
+(define (fixed-point f guess)
+  ((iterative-improve (lambda (x) (close-enough? x (f x))) f) guess))
+
+(define (square n) (* n n))
+
+(define (sqrt n)
+  ((iterative-improve (lambda (x) (< (abs (- (square x) n)) tolerance))
+                      (lambda (x) (average x (/ n x)))) 1.0))
+```
+
+&nbsp;
+
+2. `map` equivallent, but it's called `every`
 ```scheme
 (define (every f xs)
   (if (empty? xs) empty
       (cons (f (first xs)) (every f (bf xs)))))
 ```
+&nbsp;
 
-3.
-```
+3. `filter` equivallent, but it's called `keep`
+```scheme
 (define (keep pred xs)
   (if (empty? xs) empty
       (if (pred (first xs)) (cons (first xs) (keep pred (bf xs)))
             (keep pred (bf xs)))))
 ```
-4. I don't understand how this works. The text writen below is useless.
-Basically, we need a way to make our factorial be a recursive lambda function. We can do this using composition of functions.
-  1. First part: `(f f)`; this calls `f(f(x))` (the same way combining `f` and `g` calls `f(g(x))`
-  2. the part that actually does the work `(n)` is wrapped inside `r`, because `r` is actually the recursive part, which calls itself untill `n` is 0
+&nbsp;
+
+4. I don't understand how this works. The text writen below is useless. I wrote it when I knew what it meant, but I don't anymore\
+Basically, we need a way to make our factorial be a recursive lambda function. We can do this using composition of functions
+   1. First part: `(f f)`; this calls `f(f(x))` (the same way combining `f` and `g` calls `f(g(x))`
+   2. The part that actually does the work `(n)` is wrapped inside `r`, because `r` is actually the recursive part, which calls itself untill `n` is 0
 ```scheme
 (((lambda (f) (f f)) ; calls itself on itself, like a infinite loop kind of thing?
   (lambda (r) (lambda (n) ; I don't really  know why we need r here
