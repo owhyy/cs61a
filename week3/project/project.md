@@ -16,11 +16,6 @@
 
 This will first add 11 if the card is an ace card, then compute the values of all other cards. If that is > 21, it will remove 10 from it, otherwise it's just going to produce the total with the 11.
 
-2. `stop-at-17`
-```scheme
-(define (stop-at-17 hand dealer-card)
-  (< (best-total hand) 17))
-```
 
 3. `play-n`
 ```scheme
@@ -35,13 +30,4 @@ This will first add 11 if the card is an ace card, then compute the values of al
 
 This basically plays n games, if it wins then it will adds 1 to the `win` variable, if it loses, 1 to the `lose`, and at the end it will just find the difference between the two.
 
-4. `dealer-sensitive`
-```scheme
-(define (dealer-sensitive hand dealer-card)
-  (cond ((and (member? (bl dealer-card) '(a k q j 10 7 8 9))
-              (< (best-total hand) 17)) #t)
-        ((and (member? (bl dealer-card) '(2 3 4 5 7))
-              (< (best-total hand) 12)) #t)
-        (else #f)))
-```
 The rest should be self-explanatory if you read the .scm file
