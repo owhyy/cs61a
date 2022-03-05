@@ -74,7 +74,7 @@ A good implementation would be to only check `(<= 1 2)` and advance forward, che
 # SICP excersies
 Theses are not inlcluded in the homework, but I've still done them
 
-## Exercise 1.9: 
+### Exercise 1.9:
 Each of the following two procedures defines a method for adding two positive integers in terms of the procedures `inc`, which increments its argument by 1, and `dec`, which decrements its argument by 1.
 ```scheme
 (define (+ a b)
@@ -115,7 +115,7 @@ The second version will generate the following process:
 Since the result is getting calculated on each call, this is an iterative process.
 
 
-## Exercise 1.11: 
+### Exercise 1.11:
 A function f is defined by the rule that
 
 `f (n) = n, if n < 3`, or \
@@ -142,7 +142,7 @@ Iterative process
   (iter (- n 2) 2 1 0))
 ```
 
-## Exercise 1.12: 
+### Exercise 1.12:
 Pascal triangle.
 
 Basically the pattern 1 11 121 12321 1234321 and so on. The procedure should take a row and a column, and return the element and that position.
