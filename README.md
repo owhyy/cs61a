@@ -31,13 +31,13 @@ This is the repository for the 2011 spring CS61a course, done as part of the [TY
   - ~~Lab~~
   - ~~Lecture 9~~
   - ~~Lecture 10~~
-  - Lecture 11
+  - ~~Lecture 11~~
 #### Week 5: xx - xx January
-  - SICP 2.2 and 2.3
+  - ~~SICP 2.2 and 2.3~~
   - Homework
   - Lab
-  - ~~Midterm 1:~~
-  - Lecture 12
+  - ~~Midterm 1~~
+  - ~~Lecture 12~~
   - Lecture 13
   - Lecture 14
 
