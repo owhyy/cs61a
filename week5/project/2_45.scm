@@ -3,7 +3,6 @@
 (define beside car)
 (define below car)
 
-
 (define (split painter-operation smaller-operation)
   (define (loop p x)
     (if (= x 0)
