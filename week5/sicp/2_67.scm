@@ -1,5 +1,6 @@
 #lang racket
 
+;; huffman
 (define (make-leaf symbol weight) (list 'leaf symbol weight))
 (define (leaf? object) (eq? (car object) 'leaf))
 (define (symbol-leaf x) (cadr x))
@@ -55,3 +56,14 @@
       (adjoin-set (make-leaf (car pair)
                              (cadr pair))
                   (make-leaf-set (cdr pairs))))))
+;; ---
+
+(define sample-tree
+  (make-code-tree (make-leaf 'A 4)
+                  (make-code-tree
+                    (make-leaf 'B 2)
+                    (make-code-tree
+                      (make-leaf 'D 1)
+                      (make-leaf 'C 1)))))
+(define sample-message '(0 1 1 0 0 1 0 1 0 1 1 1 1 0))
+(decode sample-message sample-tree)
