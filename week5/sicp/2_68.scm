@@ -1,5 +1,7 @@
 #lang racket
+(require rackunit)
 
+;; huffman
 (define (make-leaf symbol weight) (list 'leaf symbol weight))
 (define (leaf? object) (eq? (car object) 'leaf))
 (define (symbol-leaf x) (cadr x))
@@ -55,3 +57,47 @@
       (adjoin-set (make-leaf (car pair)
                              (cadr pair))
                   (make-leaf-set (cdr pairs))))))
+;; ---
+
+;; 2.68
+(define sample-tree
+  (make-code-tree (make-leaf 'A 3)
+                  (make-code-tree
+                    (make-leaf 'B 2)
+                    (make-code-tree
+                      (make-leaf 'D 1)
+                      (make-leaf 'C 1)))))
+(define sample-message '(0 1 1 0 0 1 0 1 0 1 1 1 0))
+;; ---
+
+;; 1. call with A
+;; if left branch of tree = A, add 0
+;; if right branch of tree = A, add 1
+;; if no branch,
+(define sample-result '(A D A B B C B))
+
+; (define (encode-symbol symbol tree)
+;   null)
+
+(define (encode-symbol symbol tree)
+  (cond ((eq? symbol (car (symbols (right-branch tree)))) (cons 1 (encode-symbol symbol (cdr tree))))
+        ((eq? symbol (car (symbols (left-branch  tree)))) (cons 0 (encode-symbol symbol (cdr tree))))
+        (else (error "bad symbol: CHOOSE-BIT" symbol))))
+
+; To encode: starting at the root, for each left branch it takes to reach a character, we add 0, for each right branch we add 1.
+(define (encode message tree)
+  (if (null? message)
+    null
+    (append (encode-symbol (car message) tree)
+            (encode (cdr message) tree))))
+
+(define tests
+  (test-suite
+    "tests for the huffman encoding algorithm"
+    (check-equal? (encode (decode sample-message sample-tree) sample-tree) sample-message "testing that encoding and then deconding produces the same message")
+    ))
+
+(require rackunit/text-ui)
+;; runs the test
+
+(run-tests tests)
