@@ -3,3 +3,6 @@
 !*.scm
 !*.rkt
 !*.md
+!hw.pdf
+!labs.pdf
+!handout.pdf

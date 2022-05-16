@@ -1,12 +1,11 @@
 #lang racket
+(require rackunit)
 
-;; huffman
 (define (make-leaf symbol weight) (list 'leaf symbol weight))
 (define (leaf? object) (eq? (car object) 'leaf))
 (define (symbol-leaf x) (cadr x))
 (define (weight-leaf x) (caddr x))
 
-;; a tree is a (list left-branches, right-branches their symbols and total weight))
 (define (make-code-tree left right)
   (list left
         right
@@ -17,31 +16,31 @@
 (define (right-branch tree) (cadr tree))
 
 (define (symbols tree)
-  (if (leaf? tree) ; if the node is a leaf
-    (list (symbol-leaf tree)) ; then create a list of its symbol
-    (caddr tree))) ; otherwise get all the symbols of the branch
+  (if (leaf? tree)
+    (list (symbol-leaf tree))
+    (caddr tree)))
 
 (define (weight tree)
-  (if (leaf? tree) ; if the node is a leaf
-    (weight-leaf tree) ; get its weight
-    (cadddr tree))) ; otherwise get total weight of branch
+  (if (leaf? tree)
+    (weight-leaf tree)
+    (cadddr tree)))
 
 (define (decode bits tree)
   (define (decode-1 bits current-branch)
     (if (null? bits)
       null
       (let ((next-branch
-              (choose-branch (car bits) current-branch))) ; determines whether we should go left or right
-        (if (leaf? next-branch) ; if we reach a leaf
-          (cons (symbol-leaf next-branch) ; get its symbol
-                (decode-1 (cdr bits) tree)) ; go to the next branch
-          (decode-1 (cdr bits) next-branch))))) ; go deeper down on the same branch
+              (choose-branch (car bits) current-branch)))
+        (if (leaf? next-branch)
+          (cons (symbol-leaf next-branch)
+                (decode-1 (cdr bits) tree))
+          (decode-1 (cdr bits) next-branch)))))
   (decode-1 bits tree))
 
 (define (choose-branch bit branch)
   (cond ((= bit 0) (left-branch branch))
         ((= bit 1) (right-branch branch))
-        (else (error "bad bit: CHOOSE-BRANCH " bit))))
+        (else (error "bad bit: CHOOSE-BRANCH" bit))))
 
 (define (adjoin-set x set)
   (cond ((null? set) (list x))
@@ -58,7 +57,7 @@
                   (make-leaf-set (cdr pairs))))))
 ;; ---
 
-;; 2_67
+;; 2.69
 (define sample-tree
   (make-code-tree (make-leaf 'A 4)
                   (make-code-tree
@@ -66,5 +65,26 @@
                     (make-code-tree
                       (make-leaf 'D 1)
                       (make-leaf 'C 1)))))
-(define sample-message '(0 1 1 0 0 1 0 1 0 1 1 1 0))
-(decode sample-message sample-tree)
+
+(define (generate-huffman-tree pairs)
+  (successive-merge (make-leaf-set pairs)))
+
+(define (successive-merge leaf-set)
+  (cond ((empty? (cdr leaf-set)) (car leaf-set))
+        (else (successive-merge
+                (adjoin-set (make-code-tree
+                              (car leaf-set)
+                              (cadr leaf-set))
+                            (cddr leaf-set))))))
+
+
+(define tests
+  (test-suite
+    "test for the huffman encoding algorithm"
+    (check-equal? (generate-huffman-tree (list '(A 4) '(B 2) '(C 1) '(D 1))) sample-tree "testing that generating a tree from the book values generates sample-tree")
+    )) ;; keep in mind order does not matter for elements with same weight
+
+(require rackunit/text-ui)
+;; runs the test
+
+(run-tests tests)

@@ -26,7 +26,7 @@ This is the repository for the 2011 spring CS61a course, done as part of the [TY
 - [X] Lecture 7
 - [X] Lecture 8
 #### Week 4: xx - xx January
-- ~~SICP 2.1 and 2.2.1~~
+- [X] SICP 2.1 and 2.2.1
 - [X] Homework
 - [X] Lab
 - [X] Lecture 9
@@ -42,10 +42,10 @@ This is the repository for the 2011 spring CS61a course, done as part of the [TY
 - [X] Lecture 14
 
 #### Week 6: xx - xx January
-- [ ] SICP 2.4 and 2.5
+- [X] SICP 2.4 and 2.5
 - [ ] Homework
 - [ ] Lab
-- [ ] Project 2
+- [X] Project 2
 - [ ] Lecture 15
 - [ ] Lecture 16
 - [ ] Lecture 17
