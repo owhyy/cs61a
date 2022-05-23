@@ -1,5 +1,12 @@
 # Brian Harvey's Berkeley CS61A
-This is the repository for the 2011 spring CS61a course, done as part of the [TYCS](https://github.com/owhyy/tycs) curriculum.
+This is the repository for the 2011 spring CS61a course, done as part of the [TYCS](https://teachyourselfcs.com/) curriculum.
+
+## Structure
+The files are stuctured as follows:
+`/homework/` - homeworks, excluding the SICP excersises
+`/lab/` - labs, excluding the SICP excersises
+`/sicp/` - SICP excersises
+`/project/` - project
 
 ## Schedule
 **Started: 13 December 2021; Finished - xx xx 2022**
@@ -62,6 +69,7 @@ This is the repository for the 2011 spring CS61a course, done as part of the [TY
   - [ ] SICP 3.1 and 3.2
   - [ ] Homework
   - [ ] Lab
+  - [ ] Project 3a
   - [ ] Midterm 2: Sample exam 1
   - [ ] Lecture 21
   - [ ] Lecture 22
@@ -71,7 +79,7 @@ This is the repository for the 2011 spring CS61a course, done as part of the [TY
   - [ ] SICP 3.3
   - [ ] Homework
   - [ ] Lab
-  - [ ] Project 3a
+  - [ ] Project 3b
   - [ ] Lecture 24
   - [ ] Lecture 25
   - [ ] Lecture 26
